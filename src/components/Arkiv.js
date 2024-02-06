@@ -7,43 +7,44 @@ import { useEffect, useState } from "react"
 
 export const Arkiv = () => {
 
-    const [arkiv, setArkiv] = useState([]);
-    console.log(arkiv)
+    const [journalposter, setJournalposter] = useState([]);
+    console.log(journalposter)
 
     useEffect(() => {
         const query = `
             query {
-                arkiv {
-                    brukerId
-                    name
-                    dato
-                    status
+                journalpost(journalpostId: "453857319") {
+                    journalposttype
+                    journalstatus
+                    tema
+                    tittel
+                    dokumenter {
+                        dokumentInfoId
+                        tittel
+                    }
+                    avsenderMottaker {
+                        navn
+                    }
                 }
             }
         `;
 
-        fetch("http://localhost:8080/graphql", {
+        fetch("http://localhost:8081/journalpost-post", {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query })
+            headers: { 'Content-Type': 'application/json' }
+           
         })
         .then(response => response.json())
-        .then(data => setArkiv(data.data.arkiv)) // Pass på at du navigerer riktig i responsen for å finne dataene
+        .then(data => {
+            // Logg hele responsobjektet for inspeksjon
+            console.log(data);
+        });
     }, []);
 
 
-  return (
-    <section>
-    { arkiv.map((arkiv) => (
-        <div className="card" key={arkiv.brukerId}>
-            <p className="id">{arkiv.brukerId}</p>
-            <p className="name">Navn: {arkiv.name}</p>
-            <p className="info">
-                <span>Dato: {arkiv.dato}</span>
-                <span className={arkiv.status ? "ja" : "nei"}>{arkiv.status ? "Ferdig" : "Venter"}</span>
-            </p>
-        </div>            
-    )) }
-</section>
-  )
+    return (
+        <section>
+            <p>Sjekk konsollen for responsdata fra WireMock.</p>
+        </section>
+    );
 }
