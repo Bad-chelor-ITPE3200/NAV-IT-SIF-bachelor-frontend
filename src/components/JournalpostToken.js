@@ -6,7 +6,7 @@ function JournalpostToken() {
 
   const fetchAccessToken = async () => {
     try {
-      const tokenResponse = await fetch('http://localhost:52087/default/token', {
+      const tokenResponse = await fetch('http://localhost:53610/default/token', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -35,7 +35,7 @@ function JournalpostToken() {
       // Using access token to fetch journalpost data
       const body = JSON.stringify({ dokumentoversiktBruker: "69" });
       
-      const journalpostResponse = await fetch('http://localhost:52087/journalpost', {
+      const journalpostResponse = await fetch('http://localhost:8080/hentJournalpostListe', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -46,6 +46,7 @@ function JournalpostToken() {
       });
 
       const journalpostData = await journalpostResponse.json();
+      console.log(journalpostData)
       setJournalpost(journalpostData.data.journalpost);
     } catch (error) {
       console.error('Error fetching journalpost data:', error);

@@ -5,11 +5,9 @@ function Journalpost() {
 
   useEffect(() => {
     // Enkel JSON-kropp med bare journalpostId
-    const body = JSON.stringify({
-        journalpostId: "453857319"
-      });
+    const body = JSON.stringify({ dokumentoversiktBruker: "69" });
 
-    fetch('http://localhost:8080/journalpost', {
+    fetch('http://localhost:8080/hentJournalpostListe', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',

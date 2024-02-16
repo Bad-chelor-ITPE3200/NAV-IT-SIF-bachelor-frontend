@@ -8,7 +8,7 @@ function SimplePdfToken() {
 
   const fetchAccessToken = async () => {
     try {
-      const tokenResponse = await fetch('http://localhost:52087/default/token', {
+      const tokenResponse = await fetch('http://localhost:53610/default/token', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/x-www-form-urlencoded',
