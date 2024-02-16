@@ -5,6 +5,8 @@ import Journalpost from './components/Journalpost';
 import Get from './components/Get'
 import PdfViewer from './components/PdfViewer';
 import SimplePdf from './components/SimplePdf';
+import SimplePdfToken from './components/SimplePdfToken';
+import JournalpostToken from './components/JournalpostToken';
 
 
 
@@ -13,8 +15,8 @@ function App() {
     <div className="App">
       <h1>Arkiv</h1>
     
-    <Journalpost/>
-   <SimplePdf/> 
+    <JournalpostToken/>
+   <SimplePdfToken/> 
       
     </div>
   );
