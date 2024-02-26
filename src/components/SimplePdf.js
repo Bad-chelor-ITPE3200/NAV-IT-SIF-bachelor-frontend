@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function SimplePdf() {
   const [pdfUrl, setPdfUrl] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [jsonData, setJsonData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    // Gjør en GET-forespørsel for å hente PDF
-    fetch('http://localhost:8080/get-simple-pdf') // Anta at dette er URL-en til PDF-en din
+  const fetchPdf = () => {
+    setLoading(true);
+    setError('');
+    fetch('http://localhost:8080/hentDokumenter?dokumentInfoId=00002222')
       .then(response => {
         if (response.ok) {
-          return response.blob(); // Behandler responsen som en blob hvis responsen er OK
+          return response.blob();
         }
         throw new Error('Nettverksrespons var ikke ok');
       })
       .then(blob => {
-        const objectUrl = URL.createObjectURL(blob); // Oppretter en URL for blob-objektet
-        setPdfUrl(objectUrl); // Lagrer URL-en for å bruke i <iframe> eller <object>
+        const objectUrl = URL.createObjectURL(blob);
+        setPdfUrl(objectUrl);
         setLoading(false);
       })
       .catch(error => {
@@ -24,20 +26,48 @@ function SimplePdf() {
         setError('Feil ved henting av PDF');
         setLoading(false);
       });
-  }, []);
+  };
 
-  if (loading) return <p>Laster...</p>;
-  if (error) return <p>{error}</p>;
+  const fetchJson = () => {
+    setLoading(true);
+    setError('');
+    // Endre URL-en til den faktiske endepunktet som returnerer JSON-responsen
+    fetch('http://localhost:8080/hentDokumenter-test?dokumentId=00001111')
+      .then(response => {
+        if (response.ok) {
+          return response.text(); // Endre fra .json() til .text()
+        }
+        throw new Error('Nettverksrespons var ikke ok');
+      })
+      .then(data => {
+        setJsonData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Feil ved henting av data fjert:', error);
+        setError('Feil ved henting av data fjerteing');
+        setLoading(false);
+      });
+  };
 
   return (
     <div>
       <h2>PDF Dokument</h2>
-      {pdfUrl && (
+      <button onClick={fetchPdf} disabled={loading}>
+        {loading ? 'Laster...' : 'Hent PDF'}
+      </button>
+      <button onClick={fetchJson} disabled={loading}>
+        {loading ? 'Laster...' : 'Hent JSON'}
+      </button>
+      {error && <p>{error}</p>}
+      {pdfUrl && !loading && (
         <iframe src={pdfUrl} style={{ width: '100%', height: '500px' }} title="PDF Viewer"></iframe>
-        // Alternativt kan du bruke et <object> element istedenfor <iframe>
-        // <object data={pdfUrl} type="application/pdf" width="100%" height="500px">
-        //   PDF kan ikke vises
-        // </object>
+      )}
+      {jsonData && !loading && (
+        <div>
+          <h3>JSON Data</h3>
+          <pre>{JSON.stringify(jsonData, null, 2)}</pre>
+        </div>
       )}
     </div>
   );

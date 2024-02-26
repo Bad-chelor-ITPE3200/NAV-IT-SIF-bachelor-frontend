@@ -10,15 +10,19 @@ import JournalpostToken from './components/JournalpostToken';
 
 
 
+
+
 function App() {
   return (
     <div className="App">
-      <h1>Arkiv</h1>
-    
-    <JournalpostToken/>
-   <SimplePdfToken/> 
+      <h1>Arkiv</h1> 
 
-   <SimplePdf/>
+      <SimplePdf/>
+
+      <PdfViewer/>
+
+
+  
       
     </div>
   );
