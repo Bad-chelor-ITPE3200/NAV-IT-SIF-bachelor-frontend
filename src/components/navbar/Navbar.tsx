@@ -69,24 +69,18 @@ const Navbar = () => {
   const toggleLogin = async () => {
     if (!isLoggedIn) { 
       try {
-        const url = process.env.REACT_APP_TOKEN_URL
-        if(!url){
+        const baseurl = process.env.REACT_APP_BASE_URL
+        if(!baseurl){
           console.log("!! ENVIROMENT VARIABLE URL IS NOT SET !!")
           return;
         }
-        const response = await fetch(url, {
-          method: 'POST',
+        const response = await fetch(baseurl+"/login", {
+          method: 'GET',
           headers: {
             // Means that the form data is encoded as URL encoded format, stndard convention
             'Content-Type': 'application/x-www-form-urlencoded',
             // Include other necessary headers here
           },
-          /* This is the the encoded body where grant-type=client credentials is a typical OAuth terminology. client_credentials is a grant type
-          typically used where client applications (in our case React frontend) authenticates by the CLIENT itself, instead of a user writing
-          a username and password. In order to use the client_credentials grant type, we need to hardcode our client_id which is in our case just
-          called dittCleintId as our unique identifier which the server will identify and authenticate. Client_secret represents the client secret
-          which is a confidential value known only to the client and server.   */
-          body: 'grant_type=client_credentials&client_id=dittClientId&client_secret=dinClientSecret',
         });
         // If the response status is 200 - 299, then we go into the if statement
         if (response.ok) {
