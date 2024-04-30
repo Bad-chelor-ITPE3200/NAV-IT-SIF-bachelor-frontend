@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { FilterIcon } from '@navikt/aksel-icons';
 import FilterPopover from './filters/FilterPopover/FilterPopover';
 import {useNavigate, useLocation } from "react-router-dom";
-import { filteredData, ErrorResponse } from "../types";
+import { filteredData, ErrorResponse } from "../../assets/types/types";
 
 import "./SearchEngine.css";
 import "../../pages/landing/LandingPage.css"

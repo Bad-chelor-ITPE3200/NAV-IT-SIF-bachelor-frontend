@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Table } from "@navikt/ds-react";
 import { EyeSlashIcon, EyeIcon } from '@navikt/aksel-icons';
-import { IDocument } from "../types";
+import { IDocument } from "../../assets/types/types";
 import "./DocumentViewer.css";
-import { DocumentViewerProps } from "../types";
+import { DocumentViewerProps } from "../../assets/types/types";
 
 export const DocumentViewer = ({ documentsToView, addGlobalDocument, documents, isModal, handleSelectedIdandTitle, handleUnselectedIdandTitle, handleIsVisible }: DocumentViewerProps) => {
     const [selectedDocuments, setSelectedDocuments] = useState<IDocument[]>([])

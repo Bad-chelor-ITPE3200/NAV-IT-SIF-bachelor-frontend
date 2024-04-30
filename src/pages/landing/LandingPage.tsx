@@ -1,5 +1,5 @@
 import './LandingPage.css';
-import dokSearchIcon from "../../images/dokSearchIcon.svg";
+import dokSearchIcon from "../../assets/images/dokSearchIcon.svg";
 import { SearchEngine } from "../../components/searchEngine/SearchEngine"
 
 export const LandingPage = () => {

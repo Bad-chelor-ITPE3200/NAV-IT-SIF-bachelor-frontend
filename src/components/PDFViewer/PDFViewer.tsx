@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { pdfjs } from "react-pdf"
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
-import { IDocument, LogiskVedlegg, RotationInfo } from "../types";
+import { IDocument, LogiskVedlegg, RotationInfo } from "../../assets/types/types";
 import { PDFDocument, Rotation, RotationTypes, degrees } from "pdf-lib";
 import "./PDFViewer.css"
-import { ErrorResponse } from "../types";
+import { ErrorResponse } from "../../assets/types/types";
 import { Alert } from "@navikt/ds-react";
 import { RotateLeftIcon, RotateRightIcon, ZoomPlusIcon, ZoomMinusIcon } from '@navikt/aksel-icons';
 import { Page, Document, Outline } from 'react-pdf';

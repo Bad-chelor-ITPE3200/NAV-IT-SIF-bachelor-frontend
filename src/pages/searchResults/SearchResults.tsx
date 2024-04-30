@@ -5,16 +5,9 @@ import { PDFViewer } from "../../components/PDFViewer/PDFViewer";
 import { DocumentViewer } from "../../components/DocumentViewer/DocumentViewer";
 import { DocumentEditor } from "../../components/DocumentEditor/DocumentEditor";
 import { FeilRegistrer } from "../../components/FeilRegistrer/FeilRegistrer";
-import { IDocument, Journalpost, FilterOptions, SortState } from "../../components/types";
+import { IDocument, Journalpost, FilterOptions, SortState } from "../../assets/types/types";
+import { formatDate } from "../../assets/utils/formatDate";
 import './SearchResults.css';
-
-/* formatDate to get DD.MM.YYYY */
-const formatDate = (date: Date) => {
-      const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-     const year = date.getFullYear().toString();
-    return `${day}.${month}.${year}`
-}  ;  
 
 const transformFilterOptionsToList = (options: FilterOptions): any[] => {
     const list: any[] = [];

@@ -1,7 +1,7 @@
 import {useRef, useState, useEffect } from "react"
 import {Button, Modal, TextField, Select } from "@navikt/ds-react"
 import { PencilIcon } from "@navikt/aksel-icons";
-import { IDocument, Journalpost, Metadata } from "../types";
+import { IDocument, Journalpost, Metadata } from "../../assets/types/types";
 import {DocumentViewer} from "../DocumentViewer/DocumentViewer";
 
 export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttype, datoOpprettet, journalstatus, tema, documentsToView, addGlobalDocument, documents, appendNewJournalpost, handleIsVisible, onStatusChange}: { 
