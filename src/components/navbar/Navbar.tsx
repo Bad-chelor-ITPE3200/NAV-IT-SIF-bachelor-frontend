@@ -13,8 +13,6 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('token') !== null);
   // Another boolean hook which sets itself to true if a token stored in sessionStorage is found and we set the button's content to "Logg ut" if true.
   const [buttonText, setButtonText] = useState(sessionStorage.getItem('token') ? "Logg ut" : "Logg inn");
-  //For statussymbol - kan fjernes (Er her bare for å se at alt funker)
-  const [statusColor, setStatusColor] = useState("gray");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,32 +36,6 @@ const Navbar = () => {
     const expirationTime = sessionStorage.getItem('token_expiration');
     return expirationTime !== null && new Date().getTime() < Number(expirationTime);
   };
-  
-  const callProtectedEndpoint = async () => {
-
-    const token = sessionStorage.getItem("token");
-
-    try{
-      const response = await fetch(baseUrl + '/test/protected', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      //Oppdatering av statussymbol 
-      if (response.ok) {
-        setStatusColor("green");
-        //dersom vi ikke er authorized vil statussymbolet være oransj.
-      } else if (response.status === 401) {
-        setStatusColor("orange");
-      } else {
-        // Handle other statuses if needed
-        setStatusColor("gray");
-      }
-    }catch(err){
-      console.error('Error calling the protected endpoint:', err);
-      setStatusColor("red");
-    }
-  }
 
    // Function to toggle login/logout
   const toggleLogin = async () => {

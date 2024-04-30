@@ -1,6 +1,7 @@
 import { Button, Modal, BodyLong } from "@navikt/ds-react";
 import { useState } from "react";
 import { TasklistStartIcon, XMarkOctagonIcon } from "@navikt/aksel-icons";
+import { convertStatus } from "../../assets/utils/convertAndDisplay";
 
 export const FeilRegistrer = ({ journalposttype, journalpostId, onStatusChange}: {
     journalposttype: string,
@@ -46,14 +47,6 @@ export const FeilRegistrer = ({ journalposttype, journalpostId, onStatusChange}:
             console.error('There has been a problem with your fetch operation:', error);
         });
         setOpen(false);
-    }
-
-    const convertStatus = (journaltype: string) => {
-        if(journaltype === "I") {
-            return "UTGAAR";
-        } else {
-            return "AVBRUTT";
-        }
     }
 
     return(

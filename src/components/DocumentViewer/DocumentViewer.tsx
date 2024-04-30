@@ -88,13 +88,6 @@ export const DocumentViewer = ({ documentsToView, addGlobalDocument, documents, 
         handleSelectedIdandTitle(selectedDocuments);
         handleUnselectedIdandTitle(unselectedDocuments);
     }, [selectedDocuments, handleSelectedIdandTitle, unselectedDocuments, handleUnselectedIdandTitle]);
-
-    const toggleSelectedRow = (value: string) =>
-        setSelectedRows((list) =>
-          list.includes(value)
-            ? list.filter((id) => id !== value)
-            : [...list, value],
-    );
     
     const isRowClicked = (id: string) => selectedRows.includes(id)
     
