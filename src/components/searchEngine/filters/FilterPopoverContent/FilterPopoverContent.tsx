@@ -3,6 +3,7 @@ import { Search, DatePicker, useDatepicker, Chips, Checkbox, CheckboxGroup, Butt
 import { ArrowRightLeftIcon } from '@navikt/aksel-icons';
 import { useState, useEffect } from 'react';
 import { FilterPopoverContentProps } from "../../../../assets/types/types";
+import { formatDate } from "../../../../assets/utils/convertAndDisplay";
 
 const FilterPopoverContent = ( props : FilterPopoverContentProps) => {
 
@@ -96,15 +97,6 @@ const FilterPopoverContent = ( props : FilterPopoverContentProps) => {
             setEndDate(selectedDate);
         }
     }
-
-    /* formatDate to get DD.MM.YYYY */
-    const formatDate = (date: Date) => {
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const year = date.getFullYear().toString();
-        return `${day}.${month}.${year}`;
-    };
-    
 
     // Define the props for both date pickers using useDatepicker
     /* useDatepicker is a custom hook that returns an object that configures the and interacts with the datepicker. This is called object destructuring

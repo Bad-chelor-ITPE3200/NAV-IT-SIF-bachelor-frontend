@@ -2,7 +2,8 @@ import {useRef, useState, useEffect } from "react"
 import {Button, Modal, TextField, Select } from "@navikt/ds-react"
 import { PencilIcon } from "@navikt/aksel-icons";
 import { IDocument, Journalpost, Metadata } from "../../assets/types/types";
-import {DocumentViewer} from "../DocumentViewer/DocumentViewer";
+import { DocumentViewer } from "../DocumentViewer/DocumentViewer";
+import { convertStatus, displayType } from "../../assets/utils/convertAndDisplay";
 
 export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttype, datoOpprettet, journalstatus, tema, documentsToView, addGlobalDocument, documents, appendNewJournalpost, handleIsVisible, onStatusChange}: { 
     brukerId: string,
@@ -130,16 +131,6 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
         // setOldMetadata({...oldMetadata, dokumentID: unselectedDocumentIds});
     }, [selectedDocuments, unselectedDocuments]);
 
-    const displayType = (type: string) => {
-        if (type === "U") {
-            return "Utgående";
-        } else if (type === "I") {
-            return "Inngående";
-        } else if (type === "N") {
-            return "Notat";
-        }
-    }
-
         // Update handlers for each metadata field
     const handleTittelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewMetadata((prevMetadata) => ({
@@ -162,13 +153,6 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
         }));
     };
 
-    const convertStatus = (journaltype: string) => {
-        if(journaltype === "I") {
-            return "UTGAAR";
-        } else {
-            return "AVBRUTT";
-        }
-    }
 
     const splitDocs = async () => {
         const token = sessionStorage.getItem("token");
