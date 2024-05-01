@@ -1,9 +1,9 @@
 import {useRef, useState, useEffect } from "react"
 import {Button, Modal, TextField, Select } from "@navikt/ds-react"
 import { PencilIcon } from "@navikt/aksel-icons";
-import { IDocument, Journalpost, Metadata } from "../../assets/types/types";
+import { IDocument, Journalpost } from "../../assets/types/types";
 import { DocumentViewer } from "../DocumentViewer/DocumentViewer";
-import { convertStatus, displayType } from "../../assets/utils/convertAndDisplay";
+import { convertStatus, displayType, metadataTemplate } from "../../assets/utils/convertAndDisplay";
 
 export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttype, datoOpprettet, journalstatus, tema, documentsToView, addGlobalDocument, documents, appendNewJournalpost, handleIsVisible, onStatusChange}: { 
     brukerId: string,
@@ -41,52 +41,10 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
     };
 
     // oldMetadata which is originally in the journalpost
-    const [oldMetadata, setOldMetadata] = useState<Metadata>({
-        bruker: {
-            id: brukerId,
-            type: "FNR",
-        },
-        dokumenter: [
-            {
-                brevkode: "NAV 04-01.03",
-                dokumentvarianter: [
-                    {
-                        filtype: "PDFA",
-                        fysiskDokument: "Dokument",
-                        variantformat: "ARKIV"
-                    }
-                ],
-                tittel: "placeholder",
-            }
-        ],
-        datoDokument: datoOpprettet,
-        tittel: tittel,
-        journalposttype: journalposttype,
-        tema: tema,
-    });
+    const [oldMetadata, setOldMetadata] = useState(metadataTemplate(brukerId, tittel, journalposttype, datoOpprettet, tema));
 
     // For the updated metadata in the journalpost
-    const [newMetadata, setNewMetadata] = useState<Metadata>({
-        bruker: {
-            id: brukerId,
-            type: "FNR",
-        },
-        dokumenter: [{
-            brevkode: "NAV 04-01.03",
-            dokumentvarianter: [
-                {
-                    filtype: "PDFA",
-                    fysiskDokument: "Dokument",
-                    variantformat: "ARKIV"
-                }
-            ],
-            tittel: "placeholder",
-        }],
-        datoDokument: datoOpprettet,
-        tittel: tittel,
-        journalposttype: journalposttype,
-        tema: tema,
-    });
+    const [newMetadata, setNewMetadata] = useState(metadataTemplate(brukerId, tittel, journalposttype, datoOpprettet, tema));
 
     // Error message
     const [errorMessage, setErrorMessage] = useState('');
@@ -153,7 +111,6 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
         }));
     };
 
-
     const splitDocs = async () => {
         const token = sessionStorage.getItem("token");
 
@@ -193,24 +150,23 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
             const newJournalpostIds = data.map((journalpost: any) => journalpost.journalpostId);
             console.log(newJournalpostIds);
             
-
-                // Create new journal post objects
-                const newJournalPost: Journalpost = {
-                    journalpostId: newJournalpostIds[1], // This is the new ID from the response
-                    tittel: newMetadata.tittel, // Assuming you want to use the title from newMetadata
-                    journalposttype: newMetadata.journalposttype, // Assuming you want to use the journal post type from newMetadata
-                    datoOpprettet: (new Date()).toString(), // Assuming you want to set the creation date to now
-                    journalstatus: journalstatus, // You would need to define how to get this value
-                    tema: newMetadata.tema, // Assuming you want to use the theme from newMetadata
-                    avsenderMottakerNavn: "placeholder",
-                    dokumenter: selectedDocuments.map(doc => ({
-                        dokumentInfoId: doc.dokumentInfoId,
-                        tittel: doc.tittel,
-                        brevkode: doc.brevkode,
-                        originalJournalpostId: journalpostId,
-                        logiskeVedlegg: []
-                    }))
-                };
+            // Create new journal post objects
+            const newJournalPost: Journalpost = {
+                journalpostId: newJournalpostIds[1], // This is the new ID from the response
+                tittel: newMetadata.tittel, // Assuming you want to use the title from newMetadata
+                journalposttype: newMetadata.journalposttype, // Assuming you want to use the journal post type from newMetadata
+                datoOpprettet: (new Date()).toString(), // Assuming you want to set the creation date to now
+                journalstatus: journalstatus, // You would need to define how to get this value
+                tema: newMetadata.tema, // Assuming you want to use the theme from newMetadata
+                avsenderMottakerNavn: "placeholder",
+                dokumenter: selectedDocuments.map(doc => ({
+                    dokumentInfoId: doc.dokumentInfoId,
+                    tittel: doc.tittel,
+                    brevkode: doc.brevkode,
+                    originalJournalpostId: journalpostId,
+                    logiskeVedlegg: []
+                }))
+            };
 
             const oldJournalPost: Journalpost = {
                 journalpostId: newJournalpostIds[0], // This is the new ID from the response
@@ -238,9 +194,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
-
         console.log(requestBody)
-    //    console.log(selectedDocumentIds)
         console.log("Modalen er nå lukket")
         ref.current?.close()
     }
@@ -280,6 +234,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
                             readOnly
                         />
                         <Select label="Status" onChange={handleStatusChange} readOnly>
+                            <option value={journalstatus}>Under arbeid</option>
                             <option value="JOURNALFOERT">Journalført</option>
                             <option value="FERDIGSTILT">Utgående</option>
                             <option value="NOTAT">Notat</option>

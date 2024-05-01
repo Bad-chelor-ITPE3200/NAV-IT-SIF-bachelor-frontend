@@ -1,3 +1,5 @@
+import { IDocument } from "../../assets/types/types";
+
 /* formatDate to get DD.MM.YYYY */
 export const formatDate = (date: Date) => {
     const day = date.getDate().toString().padStart(2, '0');
@@ -48,4 +50,26 @@ export const shouldShowFeilRegistrer = (journalposttype: string, journalstatus: 
            (journalstatus !== "FERDIGSTILT") && 
            (journalstatus !== "AVBRUTT") && 
            (journalstatus !== "UTGAAR");
+}
+
+export const metadataTemplate = (brukerId: string, tittel: string, journalposttype: string, datoOpprettet: string, tema: string) => {
+    return {
+        bruker: {
+            id: brukerId,
+            type: "FNR",
+        },
+        dokumenter: [{
+            brevkode: "NAV 04-01.03",
+            dokumentvarianter: [{
+                filtype: "PDFA",
+                fysiskDokument: "Dokument",
+                variantformat: "ARKIV"
+            }],
+            tittel: "placeholder",
+        }],
+        datoDokument: datoOpprettet,
+        tittel: tittel,
+        journalposttype: journalposttype,
+        tema: tema,
+    };
 }
