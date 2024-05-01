@@ -23,3 +23,22 @@ export const displayType = (type: string) => {
         return "Notat";
     }
 }
+
+export const selectTagVariant = (journalStatus: string) => {
+    switch(journalStatus.toUpperCase()){
+        case("UNDER_ARBEID"):
+            return "alt1"
+        case("JOURNALFOERT"):
+            return "info"  
+        case("FERDIGSTILT"):
+            return "success"
+        case("EKSPEDERT"):
+            return "warning"
+        case("UTGAAR"):
+            return "error"
+        case("AVBRUTT"):
+            return "error"
+        default:
+            return "neutral"
+    }
+}

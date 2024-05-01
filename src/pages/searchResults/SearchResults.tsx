@@ -6,7 +6,7 @@ import { DocumentViewer } from "../../components/DocumentViewer/DocumentViewer";
 import { DocumentEditor } from "../../components/DocumentEditor/DocumentEditor";
 import { FeilRegistrer } from "../../components/FeilRegistrer/FeilRegistrer";
 import { IDocument, Journalpost, FilterOptions, SortState } from "../../assets/types/types";
-import { formatDate } from "../../assets/utils/convertAndDisplay";
+import { formatDate, selectTagVariant } from "../../assets/utils/convertAndDisplay";
 import './SearchResults.css';
 
 const transformFilterOptionsToList = (options: FilterOptions): any[] => {
@@ -242,24 +242,6 @@ export const SearchResults = () => {
         ]);
     };
 
-    const selectTagVariant = (journalStatus: string) => {
-        switch(journalStatus.toUpperCase()){
-            case("UNDER_ARBEID"):
-                return "alt1"
-            case("JOURNALFOERT"):
-                return "info"  
-            case("FERDIGSTILT"):
-                return "success"
-            case("EKSPEDERT"):
-                return "warning"
-            case("UTGAAR"):
-                return "error"
-            case("AVBRUTT"):
-                return "error"
-            default:
-                return "neutral"
-        }
-    }
     if (!sessionStorage.getItem("token")) {
         return <Alert variant="error" style={{width: "5px"}}>Du har ikke tilgang til resurssen, vennligst prøv igjen senere.</Alert>;
     }
