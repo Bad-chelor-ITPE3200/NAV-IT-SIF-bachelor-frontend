@@ -6,7 +6,7 @@ import { DocumentViewer } from "../../components/DocumentViewer/DocumentViewer";
 import { DocumentEditor } from "../../components/DocumentEditor/DocumentEditor";
 import { FeilRegistrer } from "../../components/FeilRegistrer/FeilRegistrer";
 import { IDocument, Journalpost, FilterOptions, SortState } from "../../assets/types/types";
-import { formatDate, selectTagVariant } from "../../assets/utils/convertAndDisplay";
+import { formatDate, selectTagVariant, shouldShowFeilRegistrer } from "../../assets/utils/convertAndDisplay";
 import './SearchResults.css';
 
 const transformFilterOptionsToList = (options: FilterOptions): any[] => {
@@ -132,15 +132,14 @@ export const SearchResults = () => {
 
     /* Kjempe mye redundant kode her, kanskje fjerne noen av disse og instansiere noen av de i selve useState()? */
     useEffect(()=>{
-        //console.log("Hi " + location.state)
+
         setDocuments(location.state.dokumentoversikt.journalposter[0].dokumenter)
         setUserkey(location.state.userkey)
         setFilterOptions(location.state.filterOptions)
-        //console.log("LOGGER LOKAL FILTEROPTIONS")
-        //console.log(filterOptions)
+
         setFilterList(transformFilterOptionsToList(filterOptions))
-        //console.log(filterList)
         selectRow([location.state.dokumentoversikt.journalposter[0].journalpostId])
+
     }, [location.state, filterOptions])
 
 
@@ -244,13 +243,6 @@ export const SearchResults = () => {
 
     if (!sessionStorage.getItem("token")) {
         return <Alert variant="error" style={{width: "5px"}}>Du har ikke tilgang til resurssen, vennligst prøv igjen senere.</Alert>;
-    }
-
-    const shouldShowFeilRegistrer = (journalposttype: string, journalstatus: string) => {
-        return (journalposttype === "I" || journalposttype === "U") && 
-               (journalstatus !== "FERDIGSTILT") && 
-               (journalstatus !== "AVBRUTT") && 
-               (journalstatus !== "UTGAAR");
     }
 
     return (

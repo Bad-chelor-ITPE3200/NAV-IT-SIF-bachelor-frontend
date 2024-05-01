@@ -42,3 +42,10 @@ export const selectTagVariant = (journalStatus: string) => {
             return "neutral"
     }
 }
+
+export const shouldShowFeilRegistrer = (journalposttype: string, journalstatus: string) => {
+    return (journalposttype === "I" || journalposttype === "U") && 
+           (journalstatus !== "FERDIGSTILT") && 
+           (journalstatus !== "AVBRUTT") && 
+           (journalstatus !== "UTGAAR");
+}
