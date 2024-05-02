@@ -1,11 +1,11 @@
 import {useRef, useState, useEffect } from "react"
 import {Button, Modal, TextField, Select } from "@navikt/ds-react"
 import { PencilIcon } from "@navikt/aksel-icons";
-import { IDocument, Journalpost } from "../../assets/types/types";
+import { IDocument, Journalpost, AvsenderMottaker } from "../../assets/types/types";
 import { DocumentViewer } from "../DocumentViewer/DocumentViewer";
 import { convertStatus, displayType, metadataTemplate } from "../../assets/utils/convertAndDisplay";
 
-export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttype, datoOpprettet, journalstatus, tema, documentsToView, addGlobalDocument, documents, appendNewJournalpost, handleIsVisible, onStatusChange}: { 
+export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttype, datoOpprettet, journalstatus, tema, avsenderMottaker, documentsToView, addGlobalDocument, documents, appendNewJournalpost, handleIsVisible, onStatusChange}: { 
     brukerId: string,
     journalpostId: string, 
     tittel: string, 
@@ -13,6 +13,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
     datoOpprettet: string, 
     journalstatus: string, 
     tema: string,
+    avsenderMottaker: AvsenderMottaker,
     documentsToView: IDocument[],
     addGlobalDocument: (document: IDocument) => void,
     documents: IDocument[],
@@ -56,7 +57,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
         setNewMetadata(prev => ({
             ...prev,
             dokumenter: selectedDocuments.map((document: IDocument) => ({
-                brevkode: "placeholder",
+                brevkode: document.brevkode,
                 dokumentvarianter: [
                     {
                         filtype: "PDFA",
@@ -150,23 +151,24 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
             const newJournalpostIds = data.map((journalpost: any) => journalpost.journalpostId);
             console.log(newJournalpostIds);
             
-            // Create new journal post objects
-            const newJournalPost: Journalpost = {
-                journalpostId: newJournalpostIds[1], // This is the new ID from the response
-                tittel: newMetadata.tittel, // Assuming you want to use the title from newMetadata
-                journalposttype: newMetadata.journalposttype, // Assuming you want to use the journal post type from newMetadata
-                datoOpprettet: (new Date()).toString(), // Assuming you want to set the creation date to now
-                journalstatus: journalstatus, // You would need to define how to get this value
-                tema: newMetadata.tema, // Assuming you want to use the theme from newMetadata
-                avsenderMottakerNavn: "placeholder",
-                dokumenter: selectedDocuments.map(doc => ({
-                    dokumentInfoId: doc.dokumentInfoId,
-                    tittel: doc.tittel,
-                    brevkode: doc.brevkode,
-                    originalJournalpostId: journalpostId,
-                    logiskeVedlegg: []
-                }))
-            };
+
+                // Create new journal post objects
+                const newJournalPost: Journalpost = {
+                    journalpostId: newJournalpostIds[1], // This is the new ID from the response
+                    tittel: newMetadata.tittel, // Assuming you want to use the title from newMetadata
+                    journalposttype: newMetadata.journalposttype, // Assuming you want to use the journal post type from newMetadata
+                    datoOpprettet: (new Date()).toString(), // Assuming you want to set the creation date to now
+                    journalstatus: journalstatus, // You would need to define how to get this value
+                    tema: newMetadata.tema, // Assuming you want to use the theme from newMetadata
+                    avsenderMottaker: newMetadata.avsenderMottaker,
+                    dokumenter: selectedDocuments.map(doc => ({
+                        dokumentInfoId: doc.dokumentInfoId,
+                        tittel: doc.tittel,
+                        brevkode: doc.brevkode,
+                        originalJournalpostId: journalpostId,
+                        logiskeVedlegg: []
+                    }))
+                };
 
             const oldJournalPost: Journalpost = {
                 journalpostId: newJournalpostIds[0], // This is the new ID from the response
@@ -175,7 +177,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
                 datoOpprettet: (new Date()).toString(), // Assuming you want to set the creation date to now
                 journalstatus: journalstatus, // You would need to define how to get this value
                 tema: oldMetadata.tema, // Assuming you want to use the theme from newMetadata
-                avsenderMottakerNavn: "placeholder",
+                avsenderMottaker: oldMetadata.avsenderMottaker,
                 dokumenter: unselectedDocuments.map(doc => ({
                     dokumentInfoId: doc.dokumentInfoId,
                     tittel: doc.tittel,
@@ -203,7 +205,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
             <Button 
                 onClick={() => {ref.current?.showModal()}}
                 iconPosition="right" icon={<PencilIcon aria-hidden />} 
-                >Splitt Docs
+                >Splitt ut dokumenter
             </Button>
 
             <Modal ref={ref} header={{ heading: "Splitt Opp Dokumenter" }} width={"40%"}>
@@ -258,7 +260,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
                     </div>        
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={splitDocs}>Opprett Nytt JournalPost</Button> {/* Her må vi setIsModalOpen(false) */}
+                    <Button onClick={splitDocs}>Splitt ut dokumenter til ny journalpost</Button> {/* Her må vi setIsModalOpen(false) */}
                     <Button
                         type="button"
                         variant="secondary"

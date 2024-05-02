@@ -3,10 +3,11 @@ import { useState } from "react";
 import { TasklistStartIcon, XMarkOctagonIcon } from "@navikt/aksel-icons";
 import { convertStatus } from "../../assets/utils/convertAndDisplay";
 
-export const FeilRegistrer = ({ journalposttype, journalpostId, onStatusChange}: {
+export const FeilRegistrer = ({ journalposttype, journalpostId, onStatusChange, formatStatus}: {
     journalposttype: string,
     journalpostId: string,
     onStatusChange: (newStatus: string, journalpostId: string) => void,
+    formatStatus: (status: string) => string
 }) => {
 
     // Error message
@@ -63,7 +64,7 @@ export const FeilRegistrer = ({ journalposttype, journalpostId, onStatusChange}:
                 open={open}
                 onClose={() => setOpen(false)}
                 header={{
-                heading: `Er du sikker på at du vil sette status på journalposten til ${convertStatus(journalposttype)}?`,
+                heading: `Er du sikker på at du vil sette status på journalposten til "${formatStatus(convertStatus(journalposttype))}"?`,
                 size: "small",
                 closeButton: false,
                 }}
