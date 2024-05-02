@@ -234,7 +234,7 @@ export const DocumentEditor = ({ brukerId, journalpostId, tittel, journalposttyp
                             readOnly
                         />
                         <Select label="Status" onChange={handleStatusChange} readOnly>
-                            <option value={journalstatus}>Under arbeid</option>
+                            <option value={journalstatus}>{journalstatus}</option>
                             <option value="JOURNALFOERT">Journalført</option>
                             <option value="FERDIGSTILT">Utgående</option>
                             <option value="NOTAT">Notat</option>
