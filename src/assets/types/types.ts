@@ -123,5 +123,5 @@ export interface Metadata {
     tittel: string;
     journalposttype: string;
     tema: string;
-    avsenderMottaker: AvsenderMottaker;
+    avsenderMottaker?: AvsenderMottaker;
 }

@@ -1,4 +1,4 @@
-import { IDocument } from "../../assets/types/types";
+import { AvsenderMottaker, IDocument } from "../../assets/types/types";
 
 /* formatDate to get DD.MM.YYYY */
 export const formatDate = (date: Date) => {
@@ -52,7 +52,7 @@ export const shouldShowFeilRegistrer = (journalposttype: string, journalstatus: 
            (journalstatus !== "UTGAAR");
 }
 
-export const metadataTemplate = (brukerId: string, tittel: string, journalposttype: string, datoOpprettet: string, tema: string) => {
+export const metadataTemplate = (brukerId: string, tittel: string, journalposttype: string, datoOpprettet: string, tema: string, avsenderMottaker: AvsenderMottaker) => {
     return {
         bruker: {
             id: brukerId,
@@ -71,5 +71,19 @@ export const metadataTemplate = (brukerId: string, tittel: string, journalpostty
         tittel: tittel,
         journalposttype: journalposttype,
         tema: tema,
+        avsenderMottaker: avsenderMottaker
     };
+}
+
+export const formatStatus = (status: string) => {
+    switch(status){
+        case("UTGAAR"):
+            return "Utgår"
+        case("UNDER_ARBEID"):
+            return "Under arbeid"
+        case("JOURNALFOERT"):
+            return "JOURNALFØRT"
+        default:
+            return status
+    }
 }

@@ -6,7 +6,7 @@ import { DocumentViewer } from "../../components/DocumentViewer/DocumentViewer";
 import { DocumentEditor } from "../../components/DocumentEditor/DocumentEditor";
 import { FeilRegistrer } from "../../components/FeilRegistrer/FeilRegistrer";
 import { IDocument, Journalpost, FilterOptions, SortState } from "../../assets/types/types";
-import { formatDate, selectTagVariant, shouldShowFeilRegistrer } from "../../assets/utils/convertAndDisplay";
+import { formatDate, selectTagVariant, shouldShowFeilRegistrer, formatStatus } from "../../assets/utils/convertAndDisplay";
 import './SearchResults.css';
 
 const transformFilterOptionsToList = (options: FilterOptions): any[] => {
